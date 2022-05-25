@@ -1,5 +1,5 @@
 import './css/styles.css';
-import {fetchCountries} from "./fetchCountries.js";
+import fetchCountries from "./fetchCountries";
 import debounce from 'lodash.debounce';
 import Notiflix from 'notiflix/build/notiflix-notify-aio';
 
@@ -22,9 +22,9 @@ function onSearch(evt){
         return fetchCountries(countrySearchInput)
             .then(countries => renderCountries(countries))
             .catch(error => {
+                console.log(error);
            Notiflix.Notify.failure('Oops, there is no country with that name');
         })
-
     }
 }
 
@@ -38,8 +38,8 @@ function renderCountries(countries) {
     //Если бэкенд вернул от 2-х до 10-х стран, под тестовым полем отображается список найденных стран
     if (countries.length > 1  && countries.length < 10) {
         const markup = countries.map(({name, flags}) => {
-            return `<li style="font-size: 20; display:flex; align-items:center;"
-             <img style="padding-right:10; src="${flags.svg}" width="40"/> ${name} </li>`
+            return `<li style="font-size: 20px; display:flex; align-items:center;"
+             <img style="padding-right:10px" src="${flags.svg}" width="40"/>${name}</li>`;
         }).join('');
         countryList.innerHTML = markup;
         countryDescription.innerHTML = '';
@@ -48,13 +48,13 @@ function renderCountries(countries) {
     //  карточки с данными о стране: флаг, название, столица, население и языки.
     if (countries.length === 1) {
         const descriptionMarkup = countries.map(({ name, flags}) => {
-            return `<li style="font-size: 30; display:flex-start; align-items:center; margin-bottom:10px"
-             <img style = "padding-right:10; src="${flags.svg}" width="40"/> ${name} </li>`
+            return `<li style="font-size: 30px; display:flex-start; align-items:center; margin-bottom:10px"
+             <img style = "padding-right:10px; src="${flags.svg}" width="40"/> ${name} </li>`;
         }).join('');
         const detailedDescriptionMarkup = countries.map(({ capital, population, languages }) => {
-            return `<p style = "font-size: 20; font-weight=700;"> Capital: <span style = "font-weight:400">${capital}</span></p>
-            <p style = "font-size:20; font-weight=700;"> Population: <span style = font-weight:400> ${population} </span></p>
-            <p style = font-size:20; font-weight=700;"> Languages: <span style = font-weight:400> ${languages} </span></p>`
+            return `<p style = "font-size: 20px; font-weight=700;"> Capital: <span style = "font-weight:400">${capital}</span></p>
+            <p style = "font-size:20px; font-weight=700;"> Population:<span style = font-weight:400> ${population} </span></p>
+            <p style = font-size:20px; font-weight=700;"> Languages:<span style = font-weight:400> ${languages} </span></p>`
         }).join('');
         countryList.innerHTML = descriptionMarkup;
         countryDescription.innerHTML = detailedDescriptionMarkup;
