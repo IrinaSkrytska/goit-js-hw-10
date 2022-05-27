@@ -37,24 +37,22 @@ function renderCountries(countries) {
     }
     //Если бэкенд вернул от 2-х до 10-х стран, под тестовым полем отображается список найденных стран
     if (countries.length > 1  && countries.length < 10) {
-        const markup = countries.map(({name, flags}) => {
-            return `<li style="font-size: 20px; display:flex; align-items:center;"
-             <img style="padding-right:10px" src="${flags.svg}" width="40"/>${name}</li>`;
-        }).join('');
+        const markup = countries.map(({ name, flags }) => `<li style="font-size: 20px; display:flex; align-items:center;"
+             <img style = "padding-right:10px" src="${flags.svg} width="40"/>${name}</li>`).join('');
         countryList.innerHTML = markup;
         countryDescription.innerHTML = '';
     }
     // Если результат запроса это массив с одной страной, в интерфейсе отображается разметка
     //  карточки с данными о стране: флаг, название, столица, население и языки.
     if (countries.length === 1) {
-        const descriptionMarkup = countries.map(({ name, flags}) => {
+        const descriptionMarkup = countries.map(({ name, flags }) => {
             return `<li style="font-size: 30px; display:flex-start; align-items:center; margin-bottom:10px"
-             <img style = "padding-right:10px; src="${flags.svg}" width="40"/> ${name} </li>`;
+             <img style = "padding-right: 10px; src="${flags.svg}" width="40"/>${name}</li>`;
         }).join('');
         const detailedDescriptionMarkup = countries.map(({ capital, population, languages }) => {
             return `<p style = "font-size: 20px; font-weight=700;"> Capital: <span style = "font-weight:400">${capital}</span></p>
             <p style = "font-size:20px; font-weight=700;"> Population:<span style = font-weight:400> ${population} </span></p>
-            <p style = font-size:20px; font-weight=700;"> Languages:<span style = font-weight:400> ${languages} </span></p>`
+            <p style = font-size:20px; font-weight=700;"> Languages:<span style = font-weight:400> ${languages[0].name} </span></p>`
         }).join('');
         countryList.innerHTML = descriptionMarkup;
         countryDescription.innerHTML = detailedDescriptionMarkup;
